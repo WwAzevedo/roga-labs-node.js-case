@@ -1,0 +1,45 @@
+# node.js
+node_modules/
+
+# arquivos de log
+logs/
+*.log
+
+# arquivos temporários
+*.tmp
+*.swp
+*.bak
+
+# arquivos compilados
+dist/
+
+# arquivos de ambiente
+.env
+
+# arquivos de cache
+.cache/
+
+# arquivos de build
+build/
+
+# arquivos de dependências
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# arquivos de backup do VS Code
+.vscode/
+
+# arquivos específicos do PostgreSQL
+*.sql
+*.dump
+*.backup
+
+# arquivos de teste
+__tests__/
+
+# outros arquivos que não devem ser versionados
+.DS_Store
+Thumbs.db
+.idea
+.expo
