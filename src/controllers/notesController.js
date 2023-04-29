@@ -1,4 +1,4 @@
-const { getAllNotes, getNoteById, createNote, updateNote, deleteNote } = require('../models/anotacoesModel');
+const { getAllNotes, getNoteById, getNotesByPeopleId, createNote, updateNote, deleteNote } = require('../models/notesModel');
 
 const notesController = {
   getAllNotes: async (req, res) => {
@@ -23,13 +23,27 @@ const notesController = {
     }
   },
 
+  getNotesByPeopleId: async (req, res) => {
+    try {
+      const note = await getNotesByPeopleId(req.params.id);
+      if (!note) {
+        res.status(404).json({ message: 'Note not found' });
+      } else {
+        res.status(200).json(note);
+      }
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+
   createNote: async (req, res) => {
     try {
-      const { title, content, author } = req.body;
-      if (!title || !content || !author) {
+      console.log(req.body)
+      const { id_pessoa, titulo, descricao, data_cadastro, data_edicao } = req.body;
+      if (!id_pessoa || !titulo || !descricao || !data_cadastro || !data_edicao) {
         res.status(400).json({ message: 'Missing required fields' });
       } else {
-        const newNote = await createNote(title, content, author);
+        const newNote = await createNote(id_pessoa, titulo, descricao, data_cadastro, data_edicao);
         res.status(201).json(newNote);
       }
     } catch (err) {
@@ -39,11 +53,12 @@ const notesController = {
 
   updateNote: async (req, res) => {
     try {
-      const { id, title, content, author } = req.body;
-      if (!title || !content || !author) {
+      req.body.id = req.params.id
+      const { id_pessoa, titulo, descricao, data_edicao } = req.body;
+      if (!id || !id_pessoa || !titulo || !descricao || !data_edicao) {
         res.status(400).json({ message: 'Missing required fields' });
       } else {
-        const updatedNote = await updateNote(id, title, content, author);
+        const updatedNote = await updateNote(id, id_pessoa, titulo, descricao, data_edicao);
         if (!updatedNote) {
           res.status(404).json({ message: 'Note not found' });
         } else {

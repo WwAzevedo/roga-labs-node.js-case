@@ -1,4 +1,4 @@
-const { getAllPeople, getPersonById, createPerson, updatePerson, deletePerson } = require('../models/pessoasModel');
+const { getAllPeople, getPersonById, createPerson, updatePerson, deletePerson } = require('../models/peopleModel');
 
 const peopleController = {
   getAllPeople: async (req, res) => {
@@ -12,7 +12,8 @@ const peopleController = {
 
   getPersonById: async (req, res) => {
     try {
-      const person = await getPersonById(req.params.id);
+      const person = req.person;
+
       if (!person) {
         res.status(404).json({ error: 'Person not found' });
       } else {
@@ -25,11 +26,11 @@ const peopleController = {
 
   createPerson: async (req, res) => {
     try {
-      const { name, age, email, phone } = req.body;
-      if (!name || !age || !email || !phone) {
+      const { nome, nome_mae, nome_pai, cep, data_nascimento, data_cadastro, data_edicao } = req.body;
+      if (!nome || !nome_mae || !nome_pai || !cep || !data_nascimento) {
         res.status(400).json({ error: 'Missing required fields' });
       } else {
-        const newPerson = await createPerson(name, age, email, phone);
+        const newPerson = await createPerson(nome, nome_mae, nome_pai, cep, data_nascimento, data_cadastro, data_edicao);
         res.status(201).json(newPerson);
       }
     } catch (err) {
@@ -39,11 +40,12 @@ const peopleController = {
 
   updatePerson: async (req, res) => {
     try {
-      const { id, name, age, email, phone } = req.body;
-      if (!id || !name || !age || !email || !phone) {
+      req.body.id = req.params.id
+      const { id, nome, nome_mae, nome_pai, cep, data_nascimento, data_edicao } = req.body;
+      if (!id || !nome || !nome_mae || !nome_pai || !cep || !data_nascimento) {
         res.status(400).json({ error: 'Missing required fields' });
       } else {
-        const updatedPerson = await updatePerson(id, name, age, email, phone);
+        const updatedPerson = await updatePerson(id, nome, nome_mae, nome_pai, cep, data_nascimento, data_edicao);
         if (!updatedPerson) {
           res.status(404).json({ error: 'Person not found' });
         } else {

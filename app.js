@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const pessoaRouter = require('./src/routes/pessoasRouter');
-const anotacaoRouter = require('./src/routes/anotacoesRouter');
+const peopleRouter = require('./src/routes/peopleRouter');
+const notesRouter = require('./src/routes/notesRouter');
 
 
 const app = express();
@@ -11,8 +11,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Rotas
-app.use(pessoaRouter);
-app.use(anotacaoRouter);
+app.use(peopleRouter);
+app.use(notesRouter);
 
 
 app.listen(3000, () => {
