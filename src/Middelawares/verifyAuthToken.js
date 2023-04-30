@@ -1,13 +1,23 @@
-// array de chaves válidas
-const validKeys = [''];
+const { getTokenByKey } = require('../models/authTokenModel');
 
-// middleware para verificar a chave de autenticação
-const authenticate = (req, res, next) => {
-  const key = req.headers['x-api-key']; // extrai a chave do header
+// Define o middleware "authToken", que verifica se o token enviado no header da requisição é válido
+const authToken = async (req, res, next) => {
+  try {
+    const key = req.headers['token']; // Obtém o token enviado no header da requisição
+    const validKeys = await getTokenByKey(key); // Chama a função "getTokenByKey" para verificar se o token é válido
 
-  if (validKeys.includes(key)) { // verifica se a chave é válida
-    next();
-  } else {
-    res.status(401).send('Unauthorized'); // retorna status 401 se a chave não for válida
+    // Se o token for válido, chama a próxima função de middleware na cadeia
+    if (validKeys) {
+      next();
+    } else {
+      res.status(403).json({ error: 'Usuário não autorizado' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500).json({ error: 'Erro interno na verificação do token de autenticação' });
   }
+}
+
+module.exports = {
+  authToken,
 }
