@@ -1,6 +1,7 @@
 const axios = require('axios');
-const { getPersonById} = require('../models/peopleModel');
+const { getPersonById } = require('../models/peopleModel');
 
+// Middleware para inserir o CEP buscado via API no objeto Pessoa
 const setAddressInfo = async (req, res, next) => {
     try {
 
@@ -9,7 +10,7 @@ const setAddressInfo = async (req, res, next) => {
 
       // Verifica se a pessoa existe
       if (!person) {
-        return res.status(404).json({ error: 'Person not found' });
+        return res.status(404).json({ error: 'Pessoa Não Encontrada' });
       }
   
       // Consulta a API de CEP
@@ -17,7 +18,7 @@ const setAddressInfo = async (req, res, next) => {
   
       // Verifica se a consulta foi bem sucedida
       if (response.status !== 200) {
-        return res.status(500).json({ error: 'Error fetching address data' });
+        return res.status(500).json({ error: 'Erro ao Buscar Endereço' });
       }
   
       // Adiciona os dados de endereço ao objeto da pessoa
@@ -28,19 +29,25 @@ const setAddressInfo = async (req, res, next) => {
       console.log(person)
       next();
     } catch (err) {
-      res.status(500).json({ error: 'Error fetching person: ' + err.message });
+      res.status(500).json({ error: 'Erro ao Buscar Pessoa: ' + err.message });
     }
   }
 
-
+// Middleware para verificar se o CEP fornecido é válido e existe na base de dados do ViaCEP
 const checkPostalCodeInfo = async (req, res, next) => {
   const cep = req.body.cep;
-  const regexCep = /^[0-9]{8}$/;
+  const regexCep = /^[0-9]{8}$/; // Expressão regular para validar o formato do CEP
 
+  // Verifica se o CEP possui o formato correto
   if (regexCep.test(cep)) {
     const url = `https://viacep.com.br/ws/${cep}/json/`;
+
     try {
+
+      // Faz uma requisição GET para a API ViaCEP para obter as informações do CEP
       const response = await axios.get(url);
+
+      // Verifica se a resposta da API indica que o CEP não foi encontrado
       if (response.data.erro) {
         res.status(400).json({ error: 'CEP inválido' });
       } else {
