@@ -1,46 +1,78 @@
 const pool = require('../database/connection');
 
-async function getAllNotes() {
-  const { rows } = await pool.query('SELECT * FROM Anotação');
-  return rows;
-}
+const notesModel = {
 
-async function getNoteById(id) {
-  const { rows } = await pool.query('SELECT * FROM Anotação WHERE id = $1', [id]);
-  return rows[0];
-}
+  // Função para obter todas as Anotações no banco de dados.
+  getAllNotes: async () => {
+    try {
+      const { rows } = await pool.query('SELECT * FROM Anotação');
+      return rows;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Erro ao buscar todas as anotações');
+    }
+  },
 
-async function getNotesByPeopleId(id_pessoa) {
-  const { rows } = await pool.query('SELECT * FROM Anotação WHERE id_pessoa = $1', [id_pessoa]);
-  return rows;
-}
+  // Função para buscar uma Anotação por ID no banco de dados.
+  getNoteById: async (id) => {
+    try {
+      const { rows } = await pool.query('SELECT * FROM Anotação WHERE id = $1', [id]);
+      return rows[0];
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Erro ao buscar a anotação com o ID ${id}`);
+    }
+  },
+  
+  // Função para buscar todas as Anotações de uma determinada pessoa no banco de dados.
+  getNotesByPeopleId: async (id_pessoa) => {
+    try {
+      const { rows } = await pool.query('SELECT * FROM Anotação WHERE id_pessoa = $1', [id_pessoa]);
+      return rows;
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Erro ao buscar todas as anotações da pessoa com o ID ${id_pessoa}`);
+    }
+  },
 
-async function createNote(id_pessoa, titulo, descricao, data_cadastro, data_edicao) {
-  const { rows } = await pool.query(
-    'INSERT INTO Anotação (id_pessoa, titulo, descricao, data_cadastro, data_edicao) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-    [id_pessoa, titulo, descricao, data_cadastro, data_edicao]
-  );
-  return rows[0];
-}
+  // Função para criar uma nova Anotação no banco de dados.
+  createNote: async (id_pessoa, titulo, descricao, data_cadastro, data_edicao) => {
+    try {
+      const { rows } = await pool.query(
+        'INSERT INTO Anotação (id_pessoa, titulo, descricao, data_cadastro, data_edicao) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [id_pessoa, titulo, descricao, data_cadastro, data_edicao]
+      );
+      return rows[0];
+    } catch (error) {
+      console.error(error);
+      throw new Error('Erro ao criar nova anotação');
+    }
+  },
 
-async function updateNote(id, id_pessoa, titulo, descricao, data_edicao) {
-  const { rows } = await pool.query(
-    'UPDATE Anotação SET id_pessoa = $1, titulo = $2, descricao = $3, data_edicao = $4 WHERE id = $5 RETURNING *',
-    [id_pessoa, titulo, descricao, data_edicao, id]
-  );
-  return rows[0];
-}
+  // Função para modificar uma Anotação no banco de dados.
+  updateNote: async (id, titulo, descricao, data_edicao) => {
+    try {
+      const { rows } = await pool.query(
+        'UPDATE Anotação SET  titulo = $1, descricao = $2, data_edicao = $3 WHERE id = $4 RETURNING *',
+        [titulo, descricao, data_edicao, id]
+      );
+      return rows[0];
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Erro ao atualizar a anotação com o ID ${id}`);
+    }
+  },
 
-async function deleteNote(id) {
-  const { rows } = await pool.query('DELETE FROM Anotação WHERE id = $1 RETURNING *', [id]);
-  return rows[0];
-}
-
-module.exports = {
-  getAllNotes,
-  getNoteById,
-  getNotesByPeopleId,
-  createNote,
-  updateNote,
-  deleteNote,
+  // Função para deletar uma Anotação no banco de dados.
+  deleteNote: async (id) => {
+    try {
+      const { rows } = await pool.query('DELETE FROM Anotação WHERE id = $1 RETURNING *', [id]);
+      return rows[0];
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Erro ao deletar a anotação com o ID ${id}`);
+    }
+  }
 };
+
+module.exports = notesModel;
