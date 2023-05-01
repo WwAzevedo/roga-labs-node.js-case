@@ -3,7 +3,7 @@ const pool = require('../database/connection');
 const peopleModel = {
 
   // Função para obter todas as Pessoas no banco de dados.
-  getAllPeople: async () => {
+  getAllPeopleModel: async () => {
     try {
       const { rows } = await pool.query('SELECT * FROM Pessoa');
       return rows;
@@ -13,7 +13,7 @@ const peopleModel = {
   },
 
   // Função para buscar uma Pessoa por ID no banco de dados.
-  getPersonById: async (id) => {
+  getPersonByIdModel: async (id) => {
     try {
       const { rows } = await pool.query('SELECT * FROM Pessoa WHERE id = $1', [id]);
       return rows[0];
@@ -23,7 +23,7 @@ const peopleModel = {
   },
 
   // Função para criar uma nova Pessoa no banco de dados.
-  createPerson: async (nome, nome_mae, nome_pai, cep, data_nascimento, data_cadastro, data_edicao) => {
+  createPersonModel: async (nome, nome_mae, nome_pai, cep, data_nascimento, data_cadastro, data_edicao) => {
     try {
       const { rows } = await pool.query(
         'INSERT INTO Pessoa (nome, nome_mae, nome_pai, cep, data_nascimento, data_cadastro, data_edicao) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
@@ -36,7 +36,7 @@ const peopleModel = {
   },
 
   // Função para modificar uma Pessoa no banco de dados.
-  updatePerson: async (id, nome, nome_mae, nome_pai, cep, data_nascimento, data_edicao) => {
+  updatePersonModel: async (id, nome, nome_mae, nome_pai, cep, data_nascimento, data_edicao) => {
     try {
       const { rows } = await pool.query(
         'UPDATE Pessoa SET nome = $1, nome_mae = $2, nome_pai = $3, cep = $4, data_nascimento = $5, data_edicao = $6 WHERE id = $7 RETURNING *',
@@ -49,7 +49,7 @@ const peopleModel = {
   },
 
   // Função para deletar uma Pessoa no banco de dados.
-  deletePerson: async (id) => {
+  deletePersonModel: async (id) => {
     try {
       const { rows } = await pool.query('DELETE FROM Pessoa WHERE id = $1 RETURNING *', [id]);
       return rows[0];
