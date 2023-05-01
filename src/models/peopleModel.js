@@ -51,6 +51,7 @@ const peopleModel = {
   // Função para deletar uma Pessoa no banco de dados.
   deletePersonModel: async (id) => {
     try {
+      await pool.query('DELETE FROM Anotação WHERE id_pessoa = $1', [id]);
       const { rows } = await pool.query('DELETE FROM Pessoa WHERE id = $1 RETURNING *', [id]);
       return rows[0];
     } catch (error) {
