@@ -9,10 +9,10 @@ const { authToken } = require('../Middelawares/verifyAuthToken');
 
 /**
  * @swagger
- * /people:
+ * /pessoas:
  *   get:
  *     summary: Retorna a lista de todas as pessoas
- *     tags: [People]
+ *     tags: [Pessoas]
  *     description: Retorna uma lista com todas as pessoas cadastradas no sistema.
  *     security:
  *       - ApiKeyAuth: []
@@ -41,14 +41,14 @@ const { authToken } = require('../Middelawares/verifyAuthToken');
  *       500:
  *         description: Erro interno do servidor.
  */
-router.get('/people', authToken, getAllPeople);
+router.get('/pessoas', authToken, getAllPeople);
 
 /**
  * @swagger
- * /people/{id}:
+ * /pessoas/{id}:
  *   get:
  *     summary: Retorna uma pessoa específica com seu endereço,
- *     tags: [People]
+ *     tags: [Pessoas]
  *     description: Retorna uma pessoa específica com base no seu ID e busca seu endereço com base no CEP.
  *     security:
  *       - ApiKeyAuth: []    
@@ -90,14 +90,14 @@ router.get('/people', authToken, getAllPeople);
  *       500:
  *         description: Erro interno do servidor.
  */
-router.get('/people/:id', authToken, setAddressInfo, getPersonById);
+router.get('/pessoas/:id', authToken, setAddressInfo, getPersonById);
 
 /**
  * @swagger
- * /people:
+ * /pessoas:
  *   post:
  *     summary: Cria uma nova pessoa
- *     tags: [People]
+ *     tags: [Pessoas]
  *     description: Cria uma nova pessoa com as informações fornecidas.
  *     security:
  *       - ApiKeyAuth: []
@@ -145,14 +145,15 @@ router.get('/people/:id', authToken, setAddressInfo, getPersonById);
  *         description: Erro interno do servidor.
  *
  */
-router.post('/people', authToken, checkDateFields, setCreationDate, setUpdateDate, checkPostalCodeInfo, createPerson); 
+
+router.post('/pessoas', authToken, checkDateFields, setCreationDate, setUpdateDate, checkPostalCodeInfo, createPerson); 
 
 /**
  * @swagger
- * /people/{id}:
+ * /pessoas/{id}:
  *   put:
  *     summary: Atualiza uma pessoa existente
- *     tags: [People]
+ *     tags: [Pessoas]
  *     description: Atualiza as informações de uma pessoa existente com base no seu ID.
  *     security:
  *       - ApiKeyAuth: []
@@ -209,15 +210,15 @@ router.post('/people', authToken, checkDateFields, setCreationDate, setUpdateDat
  *         description: Erro interno do servidor.
  * 
  */
-router.put('/people/:id', authToken,checkDateFields , setUpdateDate, checkPostalCodeInfo, updatePerson);
+router.put('/pessoas/:id', authToken,checkDateFields , setUpdateDate, checkPostalCodeInfo, updatePerson);
 
 /**
  * @swagger
  *
- * /people/{id}:
+ * /pessoas/{id}:
  *   delete:
  *     summary: Exclui uma pessoa específica pelo ID.
- *     tags: [People]
+ *     tags: [Pessoas]
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
@@ -244,6 +245,6 @@ router.put('/people/:id', authToken,checkDateFields , setUpdateDate, checkPostal
  *       500:
  *         description: Houve um erro ao excluir a pessoa.
  */
-router.delete('/people/:id', authToken, deletePerson);
+router.delete('/pessoas/:id', authToken, deletePerson);
 
 module.exports = router;

@@ -42,6 +42,6 @@ router.post('/token', createToken);
  *       404:
  *         description: Token não encontrado.
  */
-router.delete('/token/:key', authToken, deleteToken); //Rota para excluir um token específico pela KEY.
+router.delete('/token/:key', authToken, deleteToken); 
 
 module.exports = router;
