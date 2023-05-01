@@ -7,6 +7,7 @@ const options = {
     info: {
       title: 'RogaLabs Node.js Case',
       version: '1.0.0',
+      description: 'Esta aplicação é uma implementação do case da RogaLabs! Gere um token de autenticação fazendo um POST no endpoint /token e depois insira esse token no botão "AUTHORIZE".',
     },
     components: {
       securitySchemes: {
