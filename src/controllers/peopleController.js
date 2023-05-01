@@ -70,7 +70,7 @@ const peopleController = {
       if (!deletedPerson) {
         res.status(404).json({ error: 'Pessoa não encontrada', success: false  });
       } else {
-        res.status(204).json({ success: true });
+        res.status(200).json({ success: true });
       }
     } catch (err) {
       res.status(500).json({ error: 'Erro ao deletar pessoa: ' + err.message, success: false  });

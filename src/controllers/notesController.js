@@ -80,7 +80,7 @@ const notesController = {
     try {
       const deletedNote = await deleteNoteModel(req.params.id);
       if (deletedNote) {
-        res.status(204).json({ success: true });
+        res.status(200).json({ success: true });
       } else {
         res.status(404).json({ message: 'Anotação Não Encontrada', success: false  });
       }

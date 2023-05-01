@@ -133,7 +133,7 @@ describe('DELETE /pessoas/:id', () => {
     const response = await request(app)
       .delete(`/pessoas/${userCreatedId}`)
       .set('token', authToken);
-    expect(response.status).toEqual(204);
+    expect(response.status).toEqual(200);
   });
 
   it('Deve retornar 404 caso não encontre a pessoa', async () => {
