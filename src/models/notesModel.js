@@ -3,7 +3,7 @@ const pool = require('../database/connection');
 const notesModel = {
 
   // Função para obter todas as Anotações no banco de dados.
-  getAllNotes: async () => {
+  getAllNotesModel: async () => {
     try {
       const { rows } = await pool.query('SELECT * FROM Anotação');
       return rows;
@@ -14,7 +14,7 @@ const notesModel = {
   },
 
   // Função para buscar uma Anotação por ID no banco de dados.
-  getNoteById: async (id) => {
+  getNoteByIdModel: async (id) => {
     try {
       const { rows } = await pool.query('SELECT * FROM Anotação WHERE id = $1', [id]);
       return rows[0];
@@ -25,7 +25,7 @@ const notesModel = {
   },
   
   // Função para buscar todas as Anotações de uma determinada pessoa no banco de dados.
-  getNotesByPeopleId: async (id_pessoa) => {
+  getNotesByPeopleIdModel: async (id_pessoa) => {
     try {
       const { rows } = await pool.query('SELECT * FROM Anotação WHERE id_pessoa = $1', [id_pessoa]);
       return rows;
@@ -36,7 +36,7 @@ const notesModel = {
   },
 
   // Função para criar uma nova Anotação no banco de dados.
-  createNote: async (id_pessoa, titulo, descricao, data_cadastro, data_edicao) => {
+  createNoteModel: async (id_pessoa, titulo, descricao, data_cadastro, data_edicao) => {
     try {
       const { rows } = await pool.query(
         'INSERT INTO Anotação (id_pessoa, titulo, descricao, data_cadastro, data_edicao) VALUES ($1, $2, $3, $4, $5) RETURNING *',
@@ -50,7 +50,7 @@ const notesModel = {
   },
 
   // Função para modificar uma Anotação no banco de dados.
-  updateNote: async (id, titulo, descricao, data_edicao) => {
+  updateNoteModel: async (id, titulo, descricao, data_edicao) => {
     try {
       const { rows } = await pool.query(
         'UPDATE Anotação SET  titulo = $1, descricao = $2, data_edicao = $3 WHERE id = $4 RETURNING *',
@@ -64,7 +64,7 @@ const notesModel = {
   },
 
   // Função para deletar uma Anotação no banco de dados.
-  deleteNote: async (id) => {
+  deleteNoteModel: async (id) => {
     try {
       const { rows } = await pool.query('DELETE FROM Anotação WHERE id = $1 RETURNING *', [id]);
       return rows[0];

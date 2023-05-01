@@ -8,10 +8,10 @@ const { authToken } = require('../Middelawares/verifyAuthToken');
 
 /**
  * @swagger
- * /notes:
+ * /anotacoes:
  *   get:
  *     summary: Retorna todas as anotações.
- *     tags: [Notes]
+ *     tags: [Anotações]
  *     security:
  *       - ApiKeyAuth: []
  *     responses:
@@ -41,14 +41,14 @@ const { authToken } = require('../Middelawares/verifyAuthToken');
  *       500:
  *         description: Erro interno do servidor.
  */
-router.get('/notes', authToken, getAllNotes);
+router.get('/anotacoes', authToken, getAllNotes);
 
 /**
  * @swagger
- * /notes/{id}:
+ * /anotacoes/{id}:
  *   get:
  *     summary: Retorna uma anotação específica pelo ID.
- *     tags: [Notes]
+ *     tags: [Anotações]
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
@@ -76,14 +76,14 @@ router.get('/notes', authToken, getAllNotes);
  *       500:
  *         description: Erro interno do servidor.
  */
-router.get('/notes/:id', authToken, getNoteById); 
+router.get('/anotacoes/:id', authToken, getNoteById); 
 
 /**
  * @swagger
- * /notes/people/{id}:
+ * /anotacoes/pessoas/{id}:
  *   get:
  *     summary: Retorna todas as anotações associadas a uma pessoa pelo ID da pessoa.
- *     tags: [Notes]
+ *     tags: [Anotações]
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
@@ -117,14 +117,14 @@ router.get('/notes/:id', authToken, getNoteById);
  *       500:
  *         description: Erro interno do servidor.
  */
-router.get('/notes/people/:id', authToken, getNotesByPeopleId); //Rota para obter todas as anotações associadas a uma pessoa pelo ID da pessoa
+router.get('/anotacoes/pessoas/:id', authToken, getNotesByPeopleId); //Rota para obter todas as anotações associadas a uma pessoa pelo ID da pessoa
 
 /**
  * @swagger
- * /notes:
+ * /anotacoes:
  *   post:
  *     summary: Cria uma nova anotação.
- *     tags: [Notes]
+ *     tags: [Anotações]
  *     security:
  *       - ApiKeyAuth: []
  *     requestBody:
@@ -169,14 +169,14 @@ router.get('/notes/people/:id', authToken, getNotesByPeopleId); //Rota para obte
  *       '500':
  *         description: Erro interno do servidor.
  */
-router.post('/notes', authToken, checkDateFields, setCreationDate, setUpdateDate, createNote); //Rota para criar uma nova anotação, com a aplicação de middlewares para definir as datas de criação e atualização automaticamente
+router.post('/anotacoes', authToken, checkDateFields, setCreationDate, setUpdateDate, createNote); 
 
 /**
  * @swagger
- * /notes/{id}:
+ * /anotacoes/{id}:
  *   put:
  *     summary: Atualiza uma anotação existente.
- *     tags: [Notes]
+ *     tags: [Anotações]
  *     security:
  *       - ApiKeyAuth: []
  *     description: Rota para atualizar uma anotação existente, com a aplicação de middlewares para definir a data de atualização automaticamente.
@@ -252,14 +252,14 @@ router.post('/notes', authToken, checkDateFields, setCreationDate, setUpdateDate
  *       '500':
  *         description: Erro interno do servidor.
  */
-router.put('/notes/:id', authToken, checkDateFields, setUpdateDate, updateNote);
+router.put('/anotacoes/:id', authToken, checkDateFields, setUpdateDate, updateNote);
 
 /**
  * @swagger
- * /notes/{id}:
+ * /anotacoes/{id}:
  *   delete:
  *     summary: Exclui uma anotação específica pelo ID
- *     tags: [Notes]
+ *     tags: [Anotações]
  *     security:
  *       - ApiKeyAuth: []
  *     description: Rota para excluir uma anotação específica pelo ID.
@@ -287,6 +287,6 @@ router.put('/notes/:id', authToken, checkDateFields, setUpdateDate, updateNote);
  *       '500':
  *         description: Erro interno do servidor
  */
-router.delete('/notes/:id', authToken, deleteNote);
+router.delete('/anotacoes/:id', authToken, deleteNote);
 
 module.exports = router;

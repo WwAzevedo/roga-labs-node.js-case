@@ -1,12 +1,12 @@
 const axios = require('axios');
-const { getPersonById } = require('../models/peopleModel');
+const { getPersonByIdModel } = require('../models/peopleModel');
 
 // Middleware para inserir o CEP buscado via API no objeto Pessoa
 const setAddressInfo = async (req, res, next) => {
     try {
 
       // Obtém o objeto pessoa do banco de dados
-      const person = await getPersonById(req.params.id);
+      const person = await getPersonByIdModel(req.params.id);
 
       // Verifica se a pessoa existe
       if (!person) {
@@ -26,7 +26,6 @@ const setAddressInfo = async (req, res, next) => {
   
       // Adiciona o objeto da pessoa modificado à requisição para ser usado na rota
       req.person = person;
-      console.log(person)
       next();
     } catch (err) {
       res.status(500).json({ error: 'Erro ao Buscar Pessoa: ' + err.message });
