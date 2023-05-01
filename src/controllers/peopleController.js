@@ -1,11 +1,11 @@
-const { getAllPeople, getPersonById, createPerson, updatePerson, deletePerson } = require('../models/peopleModel');
+const { getAllPeopleModel, getPersonByIdModel, createPersonModel, updatePersonModel, deletePersonModel } = require('../models/peopleModel');
 
 const peopleController = {
 
   // Retorna todas as Pessoas
   getAllPeople: async (req, res) => {
     try {
-      const people = await getAllPeople();
+      const people = await getAllPeopleModel();
       res.status(200).json(people);
     } catch (err) {
       res.status(500).json({ error: 'Erro ao buscar pessoa: ' + err.message });
@@ -35,7 +35,7 @@ const peopleController = {
       if (!nome || !nome_mae || !nome_pai || !cep || !data_nascimento) {
         res.status(400).json({ error: 'Campos obrigatórios ausentes' });
       } else {
-        const newPerson = await createPerson(nome, nome_mae, nome_pai, cep, data_nascimento, data_cadastro, data_edicao);
+        const newPerson = await createPersonModel(nome, nome_mae, nome_pai, cep, data_nascimento, data_cadastro, data_edicao);
         res.status(201).json(newPerson);
       }
     } catch (err) {
@@ -51,7 +51,7 @@ const peopleController = {
       if (!id || !nome || !nome_mae || !nome_pai || !cep || !data_nascimento) {
         res.status(400).json({ error: 'Campos obrigatórios ausentes' });
       } else {
-        const updatedPerson = await updatePerson(id, nome, nome_mae, nome_pai, cep, data_nascimento, data_edicao);
+        const updatedPerson = await updatePersonModel(id, nome, nome_mae, nome_pai, cep, data_nascimento, data_edicao);
         if (!updatedPerson) {
           res.status(404).json({ error: 'Pessoa não encontrada' });
         } else {
@@ -66,11 +66,11 @@ const peopleController = {
   // Deleta uma Pessoa pelo ID
   deletePerson: async (req, res) => {
     try {
-      const deletedPerson = await deletePerson(req.params.id);
+      const deletedPerson = await deletePersonModel(req.params.id);
       if (!deletedPerson) {
         res.status(404).json({ error: 'Pessoa não encontrada', success: false  });
       } else {
-        res.status(200).json({ success: true });
+        res.status(204).json({ success: true });
       }
     } catch (err) {
       res.status(500).json({ error: 'Erro ao deletar pessoa: ' + err.message, success: false  });

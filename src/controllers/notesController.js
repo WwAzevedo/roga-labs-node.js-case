@@ -1,11 +1,11 @@
-const { getAllNotes, getNoteById, getNotesByPeopleId, createNote, updateNote, deleteNote } = require('../models/notesModel');
+const { getAllNotesModel, getNoteByIdModel, getNotesByPeopleIdModel, createNoteModel, updateNoteModel, deleteNoteModel } = require('../models/notesModel');
 
 const notesController = {
 
   // Retorna todas as Anotações
   getAllNotes: async (req, res) => {
     try {
-      const notes = await getAllNotes();
+      const notes = await getAllNotesModel();
       res.status(200).json(notes);
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -15,7 +15,7 @@ const notesController = {
   // Retorna uma Anotações pelo ID
   getNoteById: async (req, res) => {
     try {
-      const note = await getNoteById(req.params.id);
+      const note = await getNoteByIdModel(req.params.id);
       if (!note) {
         res.status(404).json({ message: 'Anotação Não Encontrada' });
       } else {
@@ -29,7 +29,7 @@ const notesController = {
   // Retorna todas as Anotações de uma pessoa pelo ID da pessoa
   getNotesByPeopleId: async (req, res) => {
     try {
-      const note = await getNotesByPeopleId(req.params.id);
+      const note = await getNotesByPeopleIdModel(req.params.id);
       if (note.length === 0) {
         res.status(404).json({ message: 'Não há anotações para essa pessoa.' });
       } else {
@@ -43,12 +43,11 @@ const notesController = {
   // Cria uma nova Anotações
   createNote: async (req, res) => {
     try {
-      console.log(req.body)
       const { id_pessoa, titulo, descricao, data_cadastro, data_edicao } = req.body;
       if (!id_pessoa || !titulo || !descricao || !data_cadastro || !data_edicao) {
         res.status(400).json({ message: 'Campos obrigatórios ausentes' });
       } else {
-        const newNote = await createNote(id_pessoa, titulo, descricao, data_cadastro, data_edicao);
+        const newNote = await createNoteModel(id_pessoa, titulo, descricao, data_cadastro, data_edicao);
         res.status(201).json(newNote);
       }
     } catch (err) {
@@ -60,12 +59,11 @@ const notesController = {
   updateNote: async (req, res) => {
     try {
       req.body.id = req.params.id
-      console.log(req.body.id)
       const { id , titulo, descricao, data_edicao } = req.body;
       if (!id || !titulo || !descricao || !data_edicao) {
         res.status(400).json({ message: 'Campos obrigatórios ausentes' });
       } else {
-        const updatedNote = await updateNote(id, titulo, descricao, data_edicao);
+        const updatedNote = await updateNoteModel(id, titulo, descricao, data_edicao);
         if (!updatedNote) {
           res.status(404).json({ message: 'Anotação Não Encontrada' });
         } else {
@@ -80,9 +78,9 @@ const notesController = {
   // Deleta uma Anotações pelo ID
   deleteNote: async (req, res) => {
     try {
-      const deletedNote = await deleteNote(req.params.id);
+      const deletedNote = await deleteNoteModel(req.params.id);
       if (deletedNote) {
-        res.status(200).json({ success: true });
+        res.status(204).json({ success: true });
       } else {
         res.status(404).json({ message: 'Anotação Não Encontrada', success: false  });
       }
