@@ -20,8 +20,9 @@ app.use(notesRouter);
 app.use(authTokenRouter);
 swagger(app);
 
+const port = process.env.PORT || 3000;
 if (process.env.NODE_ENV !== "test") {
-  app.listen(3000, () => console.log(`Server Running on ${3000}`));
+  app.listen(port, () => console.log(`Server running on port ${port}`));
 }
 
 module.exports = app;
