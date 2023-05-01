@@ -35,9 +35,6 @@ yarn-error.log*
 *.dump
 *.backup
 
-# arquivos de teste
-__tests__/
-
 # outros arquivos que não devem ser versionados
 .DS_Store
 Thumbs.db
